@@ -1,0 +1,123 @@
+{
+	"baitPrices": {
+		"bloodworms": 1.5,
+		"bread": 1.25,
+		"corn": 1.0,
+		"crab": 6.0,
+		"crayfish": 4.5,
+		"crickets": 2.0,
+		"dragonfly": 5.0,
+		"large_cutbait": 12.0,
+		"leeches": 3.0,
+		"liver": 9.0,
+		"maggots": 2.25,
+		"meat": 2.0,
+		"medium_cutbait": 7.0,
+		"minnows": 1.0,
+		"peas": 1.0,
+		"sardine": 2.5,
+		"shrimp": 4.0,
+		"small_cutbait": 4.5,
+		"worms": 1.5
+	},
+	"baitRatings": {
+		"bloodworms": "⭐",
+		"bread": "⭐",
+		"corn": "⭐",
+		"crab": "⭐⭐⭐",
+		"crayfish": "⭐⭐",
+		"crickets": "⭐",
+		"dragonfly": "⭐⭐⭐",
+		"large_cutbait": "⭐⭐⭐",
+		"leeches": "⭐⭐",
+		"liver": "⭐⭐⭐",
+		"maggots": "⭐⭐",
+		"meat": "⭐⭐",
+		"medium_cutbait": "⭐⭐",
+		"minnows": "⭐",
+		"peas": "⭐",
+		"sardine": "⭐⭐",
+		"shrimp": "⭐⭐",
+		"small_cutbait": "⭐⭐",
+		"worms": "⭐"
+	},
+	"baitInfo": {
+		"bloodworms": {
+			"description": "• Minimum fish tier: **A**\n• Catches exclusively: **small** fish\n• More likely to catch: **panfish**",
+			"imageURL": "https://i.imgur.com/NlLMOst.png"
+		},
+		"bread": {
+			"description": "• Minimum fish tier: **C**\n• Catches exclusively: **small** fish\n• More likely to catch: **minnow**",
+			"imageURL": "https://i.imgur.com/JelcSoy.png"
+		},
+		"corn": {
+			"description": "• Minimum fish tier: **C**",
+			"imageURL": "https://i.imgur.com/LuPr44E.png"
+		},
+		"crab": {
+			"description": "• Minimum fish tier: **B**\n• Catches exclusively: **large** & **extra large** fish",
+			"imageURL": "https://i.imgur.com/UQaSGwg.png"
+		},
+		"crayfish": {
+			"description": "• Catches exclusively: **large** & **extra large** fish",
+			"imageURL": "https://i.imgur.com/4a26MBy.png"
+		},
+		"crickets": {
+			"description": "• Catches exclusively: **medium** fish",
+			"imageURL": "https://i.imgur.com/nLE7Wrs.png"
+		},
+		"dragonfly": {
+			"description": "• Minimum fish tier: **C**\n• Catches exclusively: **large**, **extra large** fish\n• More likely to catch: **carp**",
+			"imageURL": "https://i.imgur.com/rG7LURR.png"
+		},
+		"large_cutbait": {
+			"description": "• Minimum fish tier: **S**\n• Catches exclusively: **large** & **extra large** fish\n• More likely to catch: **sturgeon**",
+			"imageURL": "https://i.imgur.com/KKJVSqX.png"
+		},
+		"leeches": {
+			"description": "• Minimum fish tier: **B**\n• Catches exclusively: **medium**, **large** & **extra large** fish\n• More likely to catch: **perch**",
+			"imageURL": "https://i.imgur.com/xWeBAsX.png"
+		},
+		"liver": {
+			"description": "• Catches exclusively: **extra large** fish",
+			"imageURL": "https://i.imgur.com/VcpKfBp.png"
+		},
+		"maggots": {
+			"description": "• Catches exclusively: **medium**, **large** & **extra large** fish",
+			"imageURL": "https://i.imgur.com/l5xROkN.png"
+		},
+		"meat": {
+			"description": "• Minimum fish tier: **A**",
+			"imageURL": "https://i.imgur.com/DjsBMO7.png"
+		},
+		"medium_cutbait": {
+			"description": "• Minimum fish tier: **S**\n• Catches exclusively: **medium**, **large** & **extra large** fish\n• More likely to catch: **gar**",
+			"imageURL": "https://i.imgur.com/Ih0wrBd.png"
+		},
+		"minnows": {
+			"description": "• Catches exclusively **small**, **medium** & **large** fish\n• More likely to catch: **trout** & **crappie**",
+			"imageURL": "https://i.imgur.com/FhxbXIC.png"
+		},
+		"peas": {
+			"description": "• Catches exclusively: **small** fish",
+			"imageURL": "https://i.imgur.com/k7mH7E4.png"
+		},
+		"sardine": {
+			"description": "• Minimum fish tier: **B**\n• Catches exclusively **medium** & **large** fish\n• More likely to catch: **bass**",
+			"imageURL": "https://i.imgur.com/jUV46cQ.png"
+		},
+		"shrimp": {
+			"description": "• Minimum fish tier: **A**\n• Catches exclusively: **medium**, **large** & **extra large** fish\n• More likely to catch: **catfish** & **pike**",
+			"imageURL": "https://i.imgur.com/QZHPtkY.png"
+		},
+		"small_cutbait": {
+			"description": "• Minimum fish tier: **S**\n• More likely to catch: **catfish**",
+			"imageURL": "https://i.imgur.com/EvxzrVJ.png"
+		},
+		"worms": {
+			"description": "• Minimum fish tier: **B**",
+			"imageURL": "https://i.imgur.com/hLywmyC.png"
+		}
+		
+	}
+}
