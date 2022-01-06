@@ -4,14 +4,17 @@
         "commonjs": true,
         "es2021": true
     },
-    "extends": [
-        "airbnb-base"
-    ],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-        "no-tabs": "off",
-        "indent":"off"
+        "no-unused-vars":"warn",
+        "semi":"error",
+        "no-console":"warn",
+        "no-unused-expressions":"error",
+        "no-empty":"error",
+        "no-trailing-spaces":"error",
+        "comma-dangle":"error",
+        "no-undef":"error"
     }
 }
