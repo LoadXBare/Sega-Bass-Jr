@@ -27,6 +27,11 @@ module.exports.sendHelpInfo = async (msg) => {
 			name: 'Uptime',
 			value: `\`${prefix}uptime\`\
 			\nReturns the bot's current uptime in Days, Hours, Minutes & Seconds.`
+		},
+		{
+			name: 'Cooldown',
+			value: `\`${prefix}set <cooldown>\`, Example: \`${prefix}set 65\`\
+			\nAllows you to set a cooldown in minutes for you fishing reminder.`
 		}]
 	};
 

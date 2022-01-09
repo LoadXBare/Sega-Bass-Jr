@@ -2,5 +2,6 @@
 	"embedColour": "#3479d0",
 	"embedColourSuccess": "#30d950",
 	"embedColourFail": "#d93030",
+	"embedColourTimeout": "#2f3136",
 	"prefix": ","
 }
