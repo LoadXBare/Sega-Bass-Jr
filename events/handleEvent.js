@@ -2,6 +2,7 @@ const { handleCommand } = require('../commands/handleCommand');
 const { onFishCommand } = require('./onFishCommand');
 const db = require('../database');
 const { prefix, embedColour, changelog } = require('../data/misc.json');
+const { logChannel } = require('../private/config.json');
 const baitData = require('../data/bait.json');
 
 module.exports.handleEvent = async (event, client, msg) => {
@@ -18,6 +19,13 @@ const onReady = async (client) => {
 		fields: changelog.latest,
 		color: embedColour
 	};
+	const logEmbed = {
+		title: 'ℹ️ New Log',
+		description: `Successfully logged in as ${client.user.tag}!`,
+		color: 'GREEN',
+		timestamp: Date.now()
+	};
+
 	await db.users.updateAllUsers('timerActive', false);
 	channelsToNotify.forEach(async (chnl) => {
 		const channel = await client.channels.fetch(chnl);
@@ -27,6 +35,7 @@ const onReady = async (client) => {
 	client.user.setActivity({ name: 'people fish 🎣', type: 'WATCHING' });
 	// eslint-disable-next-line no-console
 	console.log(`Logged in as ${client.user.tag}!`);
+	await client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
 };
 
 const onMessageCreate = async (msg, client) => {

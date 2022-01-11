@@ -7,7 +7,7 @@ const sleep = (ms) => { return new Promise(resolve => setTimeout(resolve, ms)); 
 
 module.exports.onFishCommand = async (msg) => {
 	let user = await db.users.fetchUser(msg.author.id);
-	if (user.enabled === 0) { return; }
+	if (user.remindersEnabled === 0) { return; }
 
 	const row = new MessageActionRow().addComponents(
 		new MessageButton()
@@ -101,16 +101,21 @@ const startFishTimer = async (msg) => {
 	};
 
 	if (user.cooldown === null) { return { reason:'cooldown', cooldown: null}; }
-	if (user.active) { return { reason:'active', cooldown: null }; }
+	if (user.timerActive) { return { reason:'active', cooldown: null }; }
 
 	await db.users.updateUser(msg.author.id, 'timerActive', true);
 
+	const logEmbed = {
+		title: 'ℹ️ New Log',
+		description: `Started Fishing Reminder Timer for \`${msg.author.tag}\``,
+		color: 'BLUE',
+		timestamp: Date.now()
+	};
+	await msg.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] });
+
 	setTimeout(async () => {
-		const logEmbed = {
-			title: 'ℹ️ New Log',
-			description: `Successfully sent \`Fishing Reminder\` to \`${msg.author.tag}\``,
-			color: 'GREEN'
-		};
+		logEmbed.description = `Successfully sent Fishing Reminder to \`${msg.author.tag}\``;
+		logEmbed.color = 'GREEN';
 
 		await db.users.updateUser(msg.author.id, 'timerActive', false);
 		embed.description = `**Hey!** ${user.cooldown} minutes have passed!\

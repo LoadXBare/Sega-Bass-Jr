@@ -7,6 +7,10 @@
 	"changelog": {
 		"latest": [{
 			"name": "Changelog",
+			"value": "• Hotfix for a bug that caused some database queries to fail"
+		}],
+		"0.5.0": [{
+			"name": "Changelog",
 			"value": "• Fixed the Fish Reminder embed being posted when non-fish commands were run\n• Handled an unhandled error when attempting to DM someone with their DMs closed\n• 99% of unhandled errors are now reported, before promptly being disregarded <a:DrakeClap:879980948425433098>"
 		}]
 	}
