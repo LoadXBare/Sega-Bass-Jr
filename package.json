@@ -8,7 +8,7 @@
 	"author": "LoadXBare",
 	"license": "ISC",
 	"dependencies": {
-		"discord.js": "^13.3.1",
+		"discord.js": "^13.5.1",
 		"mysql2": "^2.3.3"
 	}
 }

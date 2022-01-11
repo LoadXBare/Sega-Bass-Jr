@@ -8,7 +8,7 @@ module.exports.sendEvaluatedBaitShop = async (msg, cmd, client) => {
 	embed = {
 		title: 'Bait Shop Info',
 		color: embedColour,
-		description: 'Please call the Bait Shop command using `.shop bait` so I can read them embed!',
+		description: 'Please call the Bait Shop command using `.baitshop` or `.bs` so I can read them embed!',
 		footer: { text: 'This command will timeout after 10 seconds.' }
 	};
 
@@ -34,27 +34,27 @@ module.exports.sendEvaluatedBaitShop = async (msg, cmd, client) => {
 	const totalQP = parseInt(baitShopEmbed.description.replace(/\D/g, ''), 10);
 	const baitShop = {};
 	baitShopEmbed.fields.forEach((field, index) => {
-		const bait = {};
+		const obj = {};
 
-		bait.price = parseInt(field.value.replace(/\D/g, ''), 10);
-		bait.quantity = parseInt(field.name.slice(5).replace(/\D/g, ''), 10);
-		bait.value = parseFloat((bait.price / bait.quantity).toFixed(2));
-		bait.name = field.name.slice(5, field.name.search(/x/g) - 1);
-		bait.percentOfQP = parseFloat(((bait.price / totalQP) * 100).toFixed(1));
-		bait.recommendedPrice = baitData[bait.name.toLowerCase().replace(/\s/g, '_')].value;
-		bait.valueDifference = parseFloat((bait.value - bait.recommendedPrice).toFixed(2));
-		bait.rating = baitData[bait.name.toLowerCase().replace(/\s/g, '_')].rating;
+		obj.price = parseInt(field.value.replace(/\D/g, ''), 10);
+		obj.quantity = parseInt(field.name.slice(5).replace(/\D/g, ''), 10);
+		obj.value = parseFloat((obj.price / obj.quantity).toFixed(2));
+		obj.name = field.name.slice(5, field.name.search(/x/g) - 1);
+		obj.percentOfQP = parseFloat(((obj.price / totalQP) * 100).toFixed(1));
+		obj.recommendedPrice = baitData[obj.name.toLowerCase().replace(/\s/g, '_')].value;
+		obj.valueDifference = parseFloat((obj.value - obj.recommendedPrice).toFixed(2));
+		obj.rating = baitData[obj.name.toLowerCase().replace(/\s/g, '_')].rating;
 
-		if (bait.valueDifference > 0) { bait.pricing = `**OVERPRICED** by ${bait.valueDifference} 🍭`; }
-		else if (bait.valueDifference < 0) { bait.pricing = `**UNDERPRICED** by ${bait.valueDifference * -1} 🍭`; }
-		else { bait.pricing = '**NEITHER** overpriced nor underpriced'; }
+		if (obj.valueDifference > 0) { obj.pricing = `**OVERPRICED** by ${obj.valueDifference} 🍭`; }
+		else if (obj.valueDifference < 0) { obj.pricing = `**UNDERPRICED** by ${obj.valueDifference * -1} 🍭`; }
+		else { obj.pricing = '**NEITHER** overpriced nor underpriced'; }
 
-		bait.embedValue = `**Price**: ${bait.price} 🍭 [${bait.percentOfQP}% of your ${totalQP} 🍭]\
-		\n\n${baitData[bait.name.toLowerCase().replace(/\s/g, '_')].description}\
-		\n\n${bait.name} are ${bait.pricing}!\
+		obj.embedValue = `**Price**: ${obj.price} 🍭 [${obj.percentOfQP}% of your ${totalQP} 🍭]\
+		\n\n${baitData[obj.name.toLowerCase().replace(/\s/g, '_')].description}\
+		\n\n${obj.name} are ${obj.pricing}!\
 		\n——————————————————————————`;
 
-		baitShop[`bait${index + 1}`] = bait;
+		baitShop[`bait${index + 1}`] = obj;
 	});
 
 	messages.at(0).delete();

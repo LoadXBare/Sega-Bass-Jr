@@ -12,7 +12,7 @@ module.exports.fetchUser = async (userID) => {
 };
 
 module.exports.initUser = async (userID) => {
-	let query = `INSERT INTO users VALUES('${userID}', null, false, true)`;
+	let query = `INSERT INTO users VALUES('${userID}', null, 0, false, true)`;
 	await config.execute(query);
 	return;
 };

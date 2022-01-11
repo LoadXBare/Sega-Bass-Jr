@@ -3,5 +3,11 @@
 	"embedColourSuccess": "#30d950",
 	"embedColourFail": "#d93030",
 	"embedColourTimeout": "#2f3136",
-	"prefix": ","
+	"prefix": ",",
+	"changelog": {
+		"latest": [{
+			"name": "Changelog",
+			"value": "• Fixed the Fish Reminder embed being posted when non-fish commands were run\n• Handled an unhandled error when attempting to DM someone with their DMs closed\n• 99% of unhandled errors are now reported, before promptly being disregarded <a:DrakeClap:879980948425433098>"
+		}]
+	}
 }

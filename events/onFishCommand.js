@@ -1,6 +1,7 @@
 const { MessageActionRow, MessageButton } = require("discord.js");
 const { prefix, embedColour, embedColourSuccess, embedColourFail, embedColourTimeout } = require('../data/misc.json');
 const db = require('../database');
+const { logChannel } = require('../private/config.json');
 
 const sleep = (ms) => { return new Promise(resolve => setTimeout(resolve, ms)); };
 
@@ -85,7 +86,7 @@ module.exports.onFishCommand = async (msg) => {
 };
 
 const disableFishTimer = async (msg) => {
-	await db.users.updateUser(msg.author.id, 'enabled', false);
+	await db.users.updateUser(msg.author.id, 'remindersEnabled', false);
 	return;
 };
 
@@ -102,14 +103,22 @@ const startFishTimer = async (msg) => {
 	if (user.cooldown === null) { return { reason:'cooldown', cooldown: null}; }
 	if (user.active) { return { reason:'active', cooldown: null }; }
 
-	await db.users.updateUser(msg.author.id, 'active', true);
+	await db.users.updateUser(msg.author.id, 'timerActive', true);
 
 	setTimeout(async () => {
-		await db.users.updateUser(msg.author.id, 'active', false);
+		const logEmbed = {
+			title: 'ℹ️ New Log',
+			description: `Successfully sent \`Fishing Reminder\` to \`${msg.author.tag}\``,
+			color: 'GREEN'
+		};
+
+		await db.users.updateUser(msg.author.id, 'timerActive', false);
 		embed.description = `**Hey!** ${user.cooldown} minutes have passed!\
 		\n\n**GO FISH!** 🎣`;
 		embed.color = embedColour;
-		msg.author.send({ embeds: [embed] });
+		try { await msg.author.send({ embeds: [embed] }); }
+		catch { await msg.reply({ content: 'I had some trouble reaching your DMs. Regardless, here is your reminder!', embeds: [embed] }); }
+		finally { await msg.client.channels.cache.get(logChannel).send({ embeds: [logEmbed] }); }
 	}, user.cooldown * 1000 * 60);
 	return { reason: 'started', cooldown: user.cooldown };
 };

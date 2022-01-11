@@ -1,7 +1,7 @@
 const { handleCommand } = require('../commands/handleCommand');
 const { onFishCommand } = require('./onFishCommand');
 const db = require('../database');
-const { prefix, embedColour } = require('../data/misc.json');
+const { prefix, embedColour, changelog } = require('../data/misc.json');
 const baitData = require('../data/bait.json');
 
 module.exports.handleEvent = async (event, client, msg) => {
@@ -14,29 +14,31 @@ const onReady = async (client) => {
 	const channelsToNotify = ['868149626321141780','875462536609284136'];
 	const embed = {
 		title: 'Bot Restarted :warning:',
-		description: 'Any active timers have been stopped and reset, sorry for any inconveniece caused.',
+		description: '**Any active timers have been stopped and reset, sorry for any inconveniece caused.**',
+		fields: changelog.latest,
 		color: embedColour
 	};
-	await db.users.updateAllUsers('active', false);
+	await db.users.updateAllUsers('timerActive', false);
 	channelsToNotify.forEach(async (chnl) => {
 		const channel = await client.channels.fetch(chnl);
 		channel.send({ embeds: [embed] }); // ! UNCOMMENT IN PRODUCTION ! //
 	});
 
-	client.user.setActivity({ name: 'people fish', type: 'WATCHING' });
+	client.user.setActivity({ name: 'people fish 🎣', type: 'WATCHING' });
 	// eslint-disable-next-line no-console
 	console.log(`Logged in as ${client.user.tag}!`);
 };
 
 const onMessageCreate = async (msg, client) => {
 	const isCommand = msg.content.startsWith(prefix);
+	const isFishCommand = msg.content === '.f' || msg.content === '.fish' || msg.content.startsWith('.f ') || msg.content.startsWith('.fish ');
 	// if (msg.guild.id !== '611592496442769449') { return; } // ! COMMENT IN PRODUCTION ! //
 
 	if (isCommand) { handleCommand(msg, client); }
-	if (msg.content.startsWith('.f')) { onFishCommand(msg); }
+	if (isFishCommand) { onFishCommand(msg); }
 
 	if (msg.author.id === '803361191166607370') {
-		let embed = msg.embeds.at(0);
+		let embed = msg.embeds[0];
 		if (typeof embed === 'undefined') { return; }
 
 		if (embed.title === 'Bait Inventory') {
