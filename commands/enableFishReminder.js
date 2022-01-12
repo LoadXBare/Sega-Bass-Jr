@@ -4,7 +4,7 @@ const db = require('../database');
 module.exports.enableFishReminder = async (msg) => {
 	await db.users.updateUser(msg.author.id, 'remindersEnabled', true);
 
-	let embed = {
+	const embed = {
 		author: {
 			name: msg.author.tag,
 			iconURL: msg.author.avatarURL()

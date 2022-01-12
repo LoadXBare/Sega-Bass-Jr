@@ -65,18 +65,18 @@ module.exports.sendEvaluatedBaitShop = async (msg, cmd, client) => {
 		color: embedColour,
 		description: `You have ${totalQP} 🍭\nㅤ\n——————————————————————————`,
 		fields: [
-		{
-			name: `\`#1\` ${baitShop.bait1.name} x${baitShop.bait1.quantity} [${baitShop.bait1.rating}]`,
-			value: baitShop.bait1.embedValue
-		},
-		{
-			name: `\`#2\` ${baitShop.bait2.name} x${baitShop.bait2.quantity} [${baitShop.bait2.rating}]`,
-			value: baitShop.bait2.embedValue
-		},
-		{
-			name: `\`#3\` ${baitShop.bait3.name} x${baitShop.bait3.quantity} [${baitShop.bait3.rating}]`,
-			value: baitShop.bait3.embedValue
-		}]
+			{
+				name: `\`#1\` ${baitShop.bait1.name} x${baitShop.bait1.quantity} [${baitShop.bait1.rating}]`,
+				value: baitShop.bait1.embedValue
+			},
+			{
+				name: `\`#2\` ${baitShop.bait2.name} x${baitShop.bait2.quantity} [${baitShop.bait2.rating}]`,
+				value: baitShop.bait2.embedValue
+			},
+			{
+				name: `\`#3\` ${baitShop.bait3.name} x${baitShop.bait3.quantity} [${baitShop.bait3.rating}]`,
+				value: baitShop.bait3.embedValue
+			}]
 	};
 
 	commandReply.edit({ embeds: [embed] });

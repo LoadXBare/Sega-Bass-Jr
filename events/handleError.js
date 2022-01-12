@@ -1,12 +1,11 @@
 /* eslint-disable no-undef */
-/* eslint-disable no-console */
 const { errorChannel } = require('../private/config.json');
 
 module.exports = (client) => {
 	const d = new Date();
-	const dFormatted = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} at ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+	const dFormatted = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} at ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
 
-	let embed = {
+	const embed = {
 		title: '⚠️ New Error',
 		color: 'RED',
 		timestamp: d

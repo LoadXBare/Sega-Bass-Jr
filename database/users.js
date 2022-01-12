@@ -1,7 +1,7 @@
 const config = require('./config');
 
 module.exports.fetchUser = async (userID) => {
-	let query = `SELECT * FROM users WHERE user_id = '${userID}';`;
+	const query = `SELECT * FROM users WHERE user_id = '${userID}';`;
 	let user = await config.execute(query);
 
 	if (!user[0]) { // User does not exist
@@ -12,7 +12,7 @@ module.exports.fetchUser = async (userID) => {
 };
 
 module.exports.initUser = async (userID) => {
-	let query = `INSERT INTO users VALUES('${userID}', null, 0, false, true)`;
+	const query = `INSERT INTO users VALUES('${userID}', null, 0, false, true)`;
 	await config.execute(query);
 	return;
 };
@@ -20,13 +20,13 @@ module.exports.initUser = async (userID) => {
 module.exports.updateUser = async (userID, column, updatedValue) => {
 	await this.fetchUser(userID);
 
-	let query = `UPDATE users SET ${column} = ${updatedValue} WHERE user_id = '${userID}'`;
+	const query = `UPDATE users SET ${column} = ${updatedValue} WHERE user_id = '${userID}'`;
 	await config.execute(query);
 	return;
 };
 
 module.exports.updateAllUsers = async (column, updatedValue) => {
-	let query = `UPDATE users SET ${column} = ${updatedValue};`;
+	const query = `UPDATE users SET ${column} = ${updatedValue};`;
 	await config.execute(query);
 	return;
 };

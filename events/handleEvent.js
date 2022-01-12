@@ -5,14 +5,8 @@ const { prefix, embedColour, changelog } = require('../data/misc.json');
 const { logChannel } = require('../private/config.json');
 const baitData = require('../data/bait.json');
 
-module.exports.handleEvent = async (event, client, msg) => {
-	if (event === 'messageCreate') { onMessageCreate(msg, client); }
-	else if (event === 'ready') { onReady(client); }
-};
-
-
 const onReady = async (client) => {
-	const channelsToNotify = ['868149626321141780','875462536609284136'];
+	const channelsToNotify = ['868149626321141780', '875462536609284136'];
 	const embed = {
 		title: 'Bot Restarted :warning:',
 		description: '**Any active timers have been stopped and reset, sorry for any inconveniece caused.**',
@@ -73,4 +67,9 @@ const onMessageCreate = async (msg, client) => {
 			msg.reply({ embeds: [embed] });
 		}
 	}
+};
+
+module.exports.handleEvent = async (event, client, msg) => {
+	if (event === 'messageCreate') { onMessageCreate(msg, client); }
+	else if (event === 'ready') { onReady(client); }
 };

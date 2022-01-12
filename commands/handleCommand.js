@@ -3,8 +3,8 @@ const { sendBaitInfo } = require('./sendBaitInfo');
 const { sendHelpInfo } = require('./sendHelpInfo');
 const { sendUptime } = require('./sendUptime');
 const { setCooldown } = require('./setCooldown');
-const { prefix } = require('../data/misc.json');
 const { enableFishReminder } = require('./enableFishReminder');
+const { prefix } = require('../data/misc.json');
 
 module.exports.handleCommand = async (msg, client) => {
 	const args = msg.content.split(' ');

@@ -1,6 +1,6 @@
 {
 	"name": "bait-shop-helper-bot",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"description": "A Discord bot written using the Discord.JS library.",
 	"main": "bot.js",
 	"scripts": {},

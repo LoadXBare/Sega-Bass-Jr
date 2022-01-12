@@ -5,7 +5,7 @@ module.exports.setCooldown = async (msg, args) => {
 	const cooldown = parseInt(args[0], 10);
 	const user = await db.users.fetchUser(msg.author.id);
 
-	let embed = {
+	const embed = {
 		author: { name: msg.author.tag, iconURL: msg.author.avatarURL() },
 		title: 'Cooldown'
 	};
