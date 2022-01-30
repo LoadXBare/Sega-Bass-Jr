@@ -1,4 +1,4 @@
-# Big Tuna Helper
+# Sega Bass Jr
 A Discord bot written in JavaScript using the Discord.JS library.
 
 ### Project Status: ✅ Active
