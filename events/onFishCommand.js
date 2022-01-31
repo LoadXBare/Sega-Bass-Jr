@@ -40,7 +40,7 @@ module.exports.onFishCommand = async (msg) => {
 
 	if (user.timerEnable === false) { return; }
 
-	await sleep(Math.ceil(Math.random() * 3) + 1);
+	await sleep((Math.ceil(Math.random() * 3) + 1) * 1000);
 
 	const embedBase = new MessageEmbed()
 		.setAuthor({ name: msg.author.tag, iconURL: msg.author.avatarURL() })
