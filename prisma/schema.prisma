@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Users {
+  userId           String  @id
+  userCooldown     Int     @default(-1)
+  timerEnable      Boolean @default(true)
+  timerActive      Boolean @default(false)
+  startedTimestamp String  @default("0")
+  coinsEarned      Int     @default(0)
+  bonusCoinsEarned Int     @default(0)
+  coinsCollected   Int     @default(0)
+  totalCoinsEarned Int     @default(0)
+  expEarned        Int     @default(0)
+  bonusExpEarned   Int     @default(0)
+  totalExpEarned   Int     @default(0)
+  fishCaught       Int     @default(0)
+  fishLost         Int     @default(0)
+  weightCaught     Int     @default(0)
+}

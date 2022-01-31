@@ -1,2 +1,4 @@
 node_modules
 private
+prisma/migrations
+*.db

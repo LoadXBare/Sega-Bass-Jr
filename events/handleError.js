@@ -1,53 +1,41 @@
 /* eslint-disable no-undef */
+const { MessageEmbed } = require('discord.js');
 const { errorChannel } = require('../private/config.json');
 
-module.exports = (client) => {
-	const d = new Date();
-	const dFormatted = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} at ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+module.exports = async (client) => {
+	const embedBase = new MessageEmbed()
+		.setTitle(':warning: New Error')
+		.setColor('RED');
+	const errChnl = await client.channels.fetch(errorChannel);
 
-	const embed = {
-		title: '⚠️ New Error',
-		color: 'RED',
-		timestamp: d
-	};
+	process.on('unhandledRejection', async (reason) => {
+		const errorEmbed = new MessageEmbed(embedBase)
+			.setDescription(`**An error just occurred!**\
+			\n\n[unhandledRejection]\
+			\n\n\`\`\`${reason}\`\`\``)
+			.setTimestamp(Date.now());
 
-	process.on('unhandledRejection', (reason) => {
-		embed.description = `**An error just occurred!**\
-		\n\n[unhandledRejection]\
-		\n\n\`\`\`${reason}\`\`\``;
-
-		console.log('[!] [!] [!] [!] [!] [!] [!] [!] [!] [!]');
-		console.log(`An error just occurred! [${dFormatted}]\n`);
-		console.log(reason);
-		console.log('[!] [!] [!] [!] [!] [!] [!] [!] [!] [!]');
-
-		client.channels.cache.get(errorChannel).send({ embeds: [embed] });
+		await errChnl.send({ embeds: [errorEmbed] });
 	});
 
-	process.on('uncaughtException', (err) => {
-		embed.description = `**An error just occurred!**\
-		\n\n[uncaughtException]\
-		\n\n\`\`\`${err}\`\`\``;
+	process.on('uncaughtException', async (err) => {
+		const errorEmbed = new MessageEmbed(embedBase)
+			.setDescription(`**An error just occurred!**\
+			\n\n[uncaughtException]\
+			\n\n\`\`\`${err}\`\`\``)
+			.setTimestamp(Date.now());
 
-		console.log('[!] [!] [!] [!] [!] [!] [!] [!] [!] [!]');
-		console.log(`An error just occurred! [${dFormatted}]`);
-		console.log(err);
-		console.log('[!] [!] [!] [!] [!] [!] [!] [!] [!] [!]');
-
-		client.channels.cache.get(errorChannel).send({ embeds: [embed] });
+		await errChnl.send({ embeds: [errorEmbed] });
 	});
 
-	process.on('multipleResolves', (type, promise, reason) => {
-		embed.description = `**An error just occurred!**\
-		\n\n[multipleResolves]\
-		\n\n\`\`\`${type}\n\n${promise}\n\n${reason}\`\`\``;
+	process.on('multipleResolves', async (type, promise, reason) => {
+		const errorEmbed = new MessageEmbed(embedBase)
+			.setDescription(`**An error just occurred!**\
+			\n\n[multipleResolves]\
+			\n\n\`\`\`${type}\n\n${promise}\n\n${reason}\`\`\``)
+			.setTimestamp(Date.now());
 
-		console.log('[!] [!] [!] [!] [!] [!] [!] [!] [!] [!]');
-		console.log(`An error just occurred! [${dFormatted}]`);
-		console.log(type, promise, reason);
-		console.log('[!] [!] [!] [!] [!] [!] [!] [!] [!] [!]');
-
-		client.channels.cache.get(errorChannel).send({ embeds: [embed] });
+		await errChnl.send({ embeds: [errorEmbed] });
 	});
 
 };

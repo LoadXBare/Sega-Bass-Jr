@@ -1,20 +1,20 @@
 const { embedColourSuccess } = require('../data/misc.json');
-const db = require('../database');
+const prisma = require('../prisma/client.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports.enableFishReminder = async (msg) => {
-	await db.users.updateUser(msg.author.id, 'remindersEnabled', true);
+	await prisma.users.upsert({
+		where: { userId: msg.author.id },
+		update: { timerEnable: true },
+		create: { userId: msg.author.id }
+	});
 
-	const embed = {
-		author: {
-			name: msg.author.tag,
-			iconURL: msg.author.avatarURL()
-		},
-		title: 'Fishing Reminders',
-		description: 'Successfully enabled fishing reminders!',
-		footer: { text: 'You will see a prompt next time you run the fish command.' },
-		color: embedColourSuccess
-	};
+	const remindersEnabledEmbed = new MessageEmbed()
+		.setAuthor({ name: msg.author.tag, iconURL: msg.author.avatarURL() })
+		.setTitle('Fishing Reminders')
+		.setDescription('Successfully enabled fishing reminders!')
+		.setFooter({ text: 'You will see a prompt next time you run the fish command.' })
+		.setColor(embedColourSuccess);
 
-	msg.reply({ embeds: [embed] });
-	return;
+	await msg.reply({ embeds: [remindersEnabledEmbed] });
 };

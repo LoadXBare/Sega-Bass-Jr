@@ -1,36 +1,8 @@
 const { prefix, embedColour, embedColourFail } = require('../data/misc.json');
 const baitData = require('../data/bait.json');
+const { MessageEmbed } = require('discord.js');
 
-module.exports.sendEvaluatedBaitShop = async (msg, cmd, client) => {
-	const channel = await client.channels.fetch(msg.channel.id);
-	let embed;
-
-	embed = {
-		title: 'Bait Shop Info',
-		color: embedColour,
-		description: 'Please call the Bait Shop command using `.baitshop` or `.bs` so I can read them embed!',
-		footer: { text: 'This command will timeout after 10 seconds.' }
-	};
-
-	const commandReply = await msg.reply({ embeds: [embed] });
-	const messages = await channel.awaitMessages({ max: 2, idle: 10000 });
-
-	if (messages.size < 2 || typeof messages.at(1).embeds[0] === 'undefined') {
-		embed = {
-			color: embedColourFail,
-			description: `:warning: No embed detected, please run \`${prefix}${cmd}\` to try again.`
-		};
-		commandReply.edit({ embeds: [embed] });
-		return;
-	} else if (messages.at(1).embeds[0].title !== 'Welcome to the Bait Shop!') {
-		embed = {
-			color: embedColourFail,
-			description: `:warning: Wrong embed detected, please run \`${prefix}${cmd}\` to try again.`
-		};
-		commandReply.edit({ embeds: [embed], allowedMentions: { repliedUser: true } });
-		return;
-	}
-	const baitShopEmbed = messages.at(1).embeds[0];
+const evaluateBaitShop = async (msg, baitShopEmbed) => {
 	const totalQP = parseInt(baitShopEmbed.description.replace(/\D/g, ''), 10);
 	const baitShop = {};
 	baitShopEmbed.fields.forEach((field, index) => {
@@ -57,14 +29,10 @@ module.exports.sendEvaluatedBaitShop = async (msg, cmd, client) => {
 		baitShop[`bait${index + 1}`] = obj;
 	});
 
-	messages.at(0).delete();
-	messages.at(1).delete();
-
-	embed = {
-		title: 'Bait Shop Evaluation',
-		color: embedColour,
-		description: `You have ${totalQP} 🍭\nㅤ\n——————————————————————————`,
-		fields: [
+	const baitShopEvaluation = new MessageEmbed()
+		.setTitle('Bait Shop Evaluation')
+		.setDescription(`You have ${totalQP} 🍭\nㅤ\n——————————————————————————`)
+		.setFields([
 			{
 				name: `\`#1\` ${baitShop.bait1.name} x${baitShop.bait1.quantity} [${baitShop.bait1.rating}]`,
 				value: baitShop.bait1.embedValue
@@ -76,8 +44,37 @@ module.exports.sendEvaluatedBaitShop = async (msg, cmd, client) => {
 			{
 				name: `\`#3\` ${baitShop.bait3.name} x${baitShop.bait3.quantity} [${baitShop.bait3.rating}]`,
 				value: baitShop.bait3.embedValue
-			}]
-	};
+			}
+		])
+		.setColor(embedColour);
 
-	commandReply.edit({ embeds: [embed] });
+	await msg.channel.send({ embeds: [baitShopEvaluation] });
+};
+
+module.exports.sendEvaluatedBaitShop = async (msg, cmd) => {
+	const embedBase = new MessageEmbed()
+		.setTitle('Bait Shop Info')
+		.setColor(embedColour);
+
+	const queryBaitShopEmbed = new MessageEmbed(embedBase)
+		.setDescription('Please call the Bait Shop command using `.baitshop` or `.bs` so I can read the embed!')
+		.setFooter({ text: 'This command will timeout after 10 seconds.' });
+
+	const commandReply = await msg.reply({ embeds: [queryBaitShopEmbed] });
+
+	const messageCollector = await msg.channel.createMessageCollector({ max: 10, idle: 10000 });
+	messageCollector.on('collect', async (message) => {
+		if (typeof message.embeds[0] === 'undefined' || message.embeds[0].title !== 'Welcome to the Bait Shop!') return;
+		await messageCollector.stop('found');
+		await evaluateBaitShop(msg, message.embeds[0]);
+	});
+
+	messageCollector.on('end', async (reason) => {
+		if (reason !== 'found') {
+			const embedNotFound = new MessageEmbed(embedBase)
+				.setDescription(`:warning: Bait Shop embed not detected, please run \`${prefix}${cmd}\` to try again.`)
+				.setColor(embedColourFail);
+			await commandReply.edit({ embeds: [embedNotFound] });
+		}
+	});
 };
