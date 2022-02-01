@@ -1,8 +1,8 @@
-const { prefix, embedColour, embedColourFail } = require('../data/misc.json');
+const { prefix, embedColour, embedColourFail, embedColourSuccess } = require('../data/misc.json');
 const baitData = require('../data/bait.json');
 const { MessageEmbed } = require('discord.js');
 
-const evaluateBaitShop = async (msg, baitShopEmbed) => {
+const evaluateBaitShop = async (msg, commandReply, baitShopEmbed) => {
 	const totalQP = parseInt(baitShopEmbed.description.replace(/\D/g, ''), 10);
 	const baitShop = {};
 	baitShopEmbed.fields.forEach((field, index) => {
@@ -48,7 +48,12 @@ const evaluateBaitShop = async (msg, baitShopEmbed) => {
 		])
 		.setColor(embedColour);
 
-	await msg.channel.send({ embeds: [baitShopEvaluation] });
+	const baitShopEvalMsg = await msg.channel.send({ embeds: [baitShopEvaluation] });
+	const commandReplyEmbed = new MessageEmbed()
+		.setTitle('Bait Shop Info')
+		.setDescription(`Bait Shop Evaluation sent! [Link](${baitShopEvalMsg.url})`)
+		.setColor(embedColourSuccess);
+	await commandReply.edit({ embeds: [commandReplyEmbed] });
 };
 
 module.exports.sendEvaluatedBaitShop = async (msg, cmd) => {
@@ -66,10 +71,10 @@ module.exports.sendEvaluatedBaitShop = async (msg, cmd) => {
 	messageCollector.on('collect', async (message) => {
 		if (typeof message.embeds[0] === 'undefined' || message.embeds[0].title !== 'Welcome to the Bait Shop!') return;
 		await messageCollector.stop('found');
-		await evaluateBaitShop(msg, message.embeds[0]);
+		await evaluateBaitShop(msg, commandReply, message.embeds[0]);
 	});
 
-	messageCollector.on('end', async (reason) => {
+	messageCollector.on('end', async (msgs, reason) => {
 		if (reason !== 'found') {
 			const embedNotFound = new MessageEmbed(embedBase)
 				.setDescription(`:warning: Bait Shop embed not detected, please run \`${prefix}${cmd}\` to try again.`)

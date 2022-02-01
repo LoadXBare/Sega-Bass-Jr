@@ -7,28 +7,16 @@ const prisma = require('../prisma/client.js');
 const { MessageEmbed } = require('discord.js');
 
 const onReady = async (client) => {
-	const channelsToNotify = ['868149626321141780', '875462536609284136'];
 	const logChnl = await client.channels.fetch(logChannel);
 
 	require('../events/handleError.js')(client);
-
-	const notifyEmbed = new MessageEmbed()
-		.setTitle('Bot Restarted :warning:')
-		.setDescription('**Any active timers have been stopped and reset, sorry for any inconveniece caused.**')
-		.setColor(embedColour);
+	require('../lib/reminderScheduler.js')(client);
 
 	const logEmbed = new MessageEmbed()
 		.setTitle(':information_source: New Log')
 		.setDescription(`Successfully logged in as ${client.user.tag}!`)
 		.setColor('GREEN')
 		.setTimestamp(Date.now());
-
-	await prisma.users.updateMany({ data: { timerActive: false } });
-
-	channelsToNotify.forEach(async (chnl) => {
-		const notifyChnl = await client.channels.fetch(chnl);
-		await notifyChnl.send({ embeds: [notifyEmbed] });
-	});
 
 	client.user.setActivity({ name: 'people fish 🎣', type: 'WATCHING' });
 

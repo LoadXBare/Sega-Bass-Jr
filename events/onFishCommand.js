@@ -11,26 +11,20 @@ const disableFishTimer = async (msg) => {
 const startFishTimer = async (msg) => {
 	const user = await prisma.users.upsert({ where: { userId: msg.author.id }, update: {}, create: { userId: msg.author.id } });
 
-	const embedBase = new MessageEmbed()
-		.setAuthor({ name: msg.author.tag, iconURL: msg.author.avatarURL() })
-		.setTitle('Fishing Reminder');
-
 	if (user.userCooldown === -1) { return { status: 'cooldown', cooldown: null }; }
 	if (user.timerActive) { return { status: 'active', cooldown: user.userCooldown }; }
 
-	await prisma.users.update({ where: { userId: msg.author.id }, data: { timerActive: true, startedTimestamp: (Date.now()).toString() } });
+	await prisma.users.update({
+		where: { userId: msg.author.id },
+		data: {
+			timerActive: true,
+			channelId: msg.channelId,
+			messageId: msg.id,
+			startTimestamp: Math.ceil(Date.now() / 1000),
+			endTimestamp: Math.ceil(Date.now() / 1000) + user.userCooldown * 60
+		}
+	});
 
-	setTimeout(async () => {
-		await prisma.users.update({ where: { userId: msg.author.id }, data: { timerActive: false } });
-
-		const reminderEmbed = new MessageEmbed(embedBase)
-			.setDescription(`**Hey!** ${user.userCooldown} minutes have passed!\
-			\n\n**GO FISH!** 🎣`)
-			.setColor(embedColour);
-
-		try { await msg.author.send({ embeds: [reminderEmbed] }); }
-		catch { await msg.reply({ content: 'I had some trouble reaching your DMs. Regardless, here is your reminder!', embeds: [reminderEmbed] }); }
-	}, user.userCooldown * 1000 * 60);
 	return { status: 'started', cooldown: user.userCooldown };
 };
 
@@ -102,7 +96,7 @@ module.exports.onFishCommand = async (msg) => {
 		} else if (timer.status === 'active') {
 			interactionResponseEmbed
 				.setDescription(`:warning: It looks like you already have an active timer!\
-				\nActive timer expires: <t:${Math.ceil((timer.cooldown * 60) + (user.startedTimestamp / 1000))}:R>`)
+				\nActive timer expires: <t:${user.endTimestamp}:R>`)
 				.setColor(embedColourFail);
 		}
 	} else if (interactionType === 'No') {

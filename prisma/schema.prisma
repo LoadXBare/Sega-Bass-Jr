@@ -9,10 +9,13 @@ datasource db {
 
 model Users {
   userId           String  @id
+  channelId        String  @default("0")
+  messageId        String  @default("0")
   userCooldown     Int     @default(-1)
   timerEnable      Boolean @default(true)
   timerActive      Boolean @default(false)
-  startedTimestamp String  @default("0")
+  startTimestamp   Int     @default(0)
+  endTimestamp     Int     @default(0)
   coinsEarned      Int     @default(0)
   bonusCoinsEarned Int     @default(0)
   coinsCollected   Int     @default(0)
