@@ -1,10 +1,18 @@
 {
     "env": {
-        "browser": true,
         "commonjs": true,
+        "browser": true,
         "es2021": true
     },
-    "extends": "eslint:recommended",
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest"
     },
@@ -20,7 +28,7 @@
         "default-case": "error",
         "default-case-last": "error",
         "eqeqeq": "error",
-        "indent": [
+        "@typescript-eslint/indent": [
             "error",
             "tab"
         ],
